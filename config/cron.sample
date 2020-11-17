@@ -1,0 +1,7 @@
+MTU=""
+
+# m h  dom mon dow   command
+
+# Fetch latest data from Google Drive
+*/10 * * * * /usr/share/logstash/repos/north800-tracking/bin/refresh.sh
+

@@ -15,19 +15,37 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 3,
-  "links": [],
+  "id": 2,
+  "links": [
+    {
+      "icon": "external link",
+      "tags": [],
+      "targetBlank": true,
+      "title": "Wells Fargo Bank Login",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://connect.secure.wellsfargo.com/auth/login/present?origin=cob&error=yes&langPref=ENG"
+    }
+  ],
   "panels": [
     {
       "aliasColors": {
+        "Cumulative Sum Max withdrawl": "dark-red",
+        "Cumulative Sum Sum amount": "dark-green",
+        "Cumulative Sum Sum withdrawl": "dark-red",
         "Net": "dark-green",
         "Total Deposits": "dark-blue",
-        "Withdrawl": "semi-dark-red"
+        "Withdrawl": "semi-dark-red",
+        "cummulative net": "dark-green",
+        "deposits": "dark-blue",
+        "net": "dark-green",
+        "withdrawl": "dark-red",
+        "withdrawls": "dark-red"
       },
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "WF-Transactions",
+      "datasource": "es_wf_accounts",
       "description": "Total Deposits",
       "fieldConfig": {
         "defaults": {
@@ -50,10 +68,10 @@
         "overrides": []
       },
       "fill": 0,
-      "fillGradient": 0,
+      "fillGradient": 6,
       "gridPos": {
-        "h": 11,
-        "w": 21,
+        "h": 12,
+        "w": 22,
         "x": 1,
         "y": 0
       },
@@ -69,14 +87,14 @@
         "values": false
       },
       "lines": true,
-      "linewidth": 2,
+      "linewidth": 1,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
       },
       "percentage": false,
       "pluginVersion": "7.2.1",
-      "pointradius": 2,
+      "pointradius": 1,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [
@@ -90,91 +108,11 @@
       "steppedLine": true,
       "targets": [
         {
-          "alias": "Total Deposits",
+          "alias": "net",
           "bucketAggs": [
             {
-              "$$hashKey": "object:617",
-              "fake": true,
-              "field": "@timestamp",
-              "id": "3",
-              "settings": {
-                "interval": "auto",
-                "min_doc_count": 0,
-                "trimEdges": 0
-              },
-              "type": "date_histogram"
-            }
-          ],
-          "metrics": [
-            {
-              "$$hashKey": "object:222",
-              "field": "deposit",
-              "hide": true,
-              "id": "1",
-              "meta": {},
-              "pipelineAgg": "select metric",
-              "settings": {},
-              "type": "max"
-            },
-            {
-              "$$hashKey": "object:626",
-              "field": "1",
-              "id": "4",
-              "meta": {},
-              "pipelineAgg": "1",
-              "settings": {},
-              "type": "cumulative_sum"
-            }
-          ],
-          "refId": "A",
-          "timeField": "@timestamp"
-        },
-        {
-          "alias": "Total Withdrawals",
-          "bucketAggs": [
-            {
-              "$$hashKey": "object:617",
-              "fake": true,
-              "field": "@timestamp",
-              "id": "3",
-              "settings": {
-                "interval": "auto",
-                "min_doc_count": 0,
-                "trimEdges": 0
-              },
-              "type": "date_histogram"
-            }
-          ],
-          "metrics": [
-            {
-              "$$hashKey": "object:222",
-              "field": "withdrawl",
-              "hide": true,
-              "id": "1",
-              "meta": {},
-              "pipelineAgg": "select metric",
-              "settings": {},
-              "type": "max"
-            },
-            {
-              "$$hashKey": "object:626",
-              "field": "1",
-              "id": "4",
-              "meta": {},
-              "pipelineAgg": "1",
-              "settings": {},
-              "type": "cumulative_sum"
-            }
-          ],
-          "refId": "B",
-          "timeField": "@timestamp"
-        },
-        {
-          "alias": "Net",
-          "bucketAggs": [
-            {
-              "$$hashKey": "object:1708",
-              "field": "@timestamp",
+              "$$hashKey": "object:1360",
+              "field": "timestamp",
               "id": "2",
               "settings": {
                 "interval": "auto",
@@ -186,16 +124,92 @@
           ],
           "metrics": [
             {
-              "$$hashKey": "object:1706",
-              "field": "delta",
+              "$$hashKey": "object:1358",
+              "field": "amount",
               "hide": true,
               "id": "1",
               "meta": {},
               "settings": {},
-              "type": "max"
+              "type": "sum"
             },
             {
-              "$$hashKey": "object:1724",
+              "$$hashKey": "object:1478",
+              "field": "1",
+              "id": "3",
+              "meta": {},
+              "pipelineAgg": "1",
+              "settings": {},
+              "type": "cumulative_sum"
+            }
+          ],
+          "refId": "A",
+          "timeField": "timestamp"
+        },
+        {
+          "alias": "deposits",
+          "bucketAggs": [
+            {
+              "$$hashKey": "object:1838",
+              "field": "timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": 0,
+                "trimEdges": 0
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "metrics": [
+            {
+              "$$hashKey": "object:1836",
+              "field": "deposit",
+              "hide": true,
+              "id": "1",
+              "meta": {},
+              "settings": {},
+              "type": "sum"
+            },
+            {
+              "$$hashKey": "object:1854",
+              "field": "1",
+              "id": "3",
+              "meta": {},
+              "pipelineAgg": "1",
+              "settings": {},
+              "type": "cumulative_sum"
+            }
+          ],
+          "refId": "B",
+          "timeField": "timestamp"
+        },
+        {
+          "alias": "withdrawls",
+          "bucketAggs": [
+            {
+              "$$hashKey": "object:2016",
+              "field": "timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": 0,
+                "trimEdges": 0
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "metrics": [
+            {
+              "$$hashKey": "object:2014",
+              "field": "withdrawl",
+              "hide": true,
+              "id": "1",
+              "meta": {},
+              "settings": {},
+              "type": "sum"
+            },
+            {
+              "$$hashKey": "object:2032",
               "field": "1",
               "id": "3",
               "meta": {},
@@ -205,10 +219,60 @@
             }
           ],
           "refId": "C",
-          "timeField": "@timestamp"
+          "timeField": "timestamp"
+        },
+        {
+          "bucketAggs": [
+            {
+              "$$hashKey": "object:183",
+              "field": "timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": 0,
+                "trimEdges": 0
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "metrics": [
+            {
+              "$$hashKey": "object:181",
+              "field": "reference",
+              "hide": true,
+              "id": "1",
+              "meta": {},
+              "settings": {},
+              "type": "sum"
+            },
+            {
+              "$$hashKey": "object:389",
+              "field": "1",
+              "hide": true,
+              "id": "3",
+              "meta": {},
+              "pipelineAgg": "1",
+              "settings": {},
+              "type": "cumulative_sum"
+            }
+          ],
+          "refId": "D",
+          "timeField": "timestamp"
         }
       ],
-      "thresholds": [],
+      "thresholds": [
+        {
+          "$$hashKey": "object:368",
+          "colorMode": "custom",
+          "fill": false,
+          "fillColor": "rgba(51, 162, 229, 0.2)",
+          "line": true,
+          "lineColor": "#FFCB7D",
+          "op": "lt",
+          "value": 1,
+          "yaxis": "left"
+        }
+      ],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
@@ -230,10 +294,10 @@
         {
           "$$hashKey": "object:2229",
           "format": "currencyUSD",
-          "label": "2020 YTD",
+          "label": "Cumulative",
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "-10000",
           "show": true
         },
         {
@@ -250,9 +314,228 @@
         "align": false,
         "alignLevel": null
       }
+    },
+    {
+      "datasource": "es_wf_accounts",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null,
+            "filterable": true
+          },
+          "mappings": [
+            {
+              "from": "",
+              "id": 1,
+              "text": "",
+              "to": "",
+              "type": 1,
+              "value": ""
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName"
+            },
+            "properties": []
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "timestamp"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "dateTimeAsUS"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "description"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 6000
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "deposit"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 133
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "withdrawl"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 170
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Account Name"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 125
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Deposits"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 147
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Withdrawals"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 137
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Date"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 203
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 22,
+        "x": 1,
+        "y": 12
+      },
+      "id": 4,
+      "options": {
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Date"
+          }
+        ]
+      },
+      "pluginVersion": "7.2.1",
+      "targets": [
+        {
+          "bucketAggs": [],
+          "metrics": [
+            {
+              "$$hashKey": "object:1913",
+              "field": "select field",
+              "id": "1",
+              "meta": {},
+              "settings": {
+                "size": 500
+              },
+              "type": "raw_data"
+            }
+          ],
+          "refId": "A",
+          "timeField": "timestamp"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Transaction Log",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "@timestamp": true,
+              "_id": true,
+              "_index": true,
+              "_type": true,
+              "amount": true,
+              "doc_id": true,
+              "reference": true,
+              "xtype": true
+            },
+            "indexByName": {
+              "@timestamp": 4,
+              "_id": 6,
+              "_index": 7,
+              "_type": 8,
+              "acct_id": 1,
+              "amount": 9,
+              "deposit": 2,
+              "description": 5,
+              "doc_id": 10,
+              "reference": 11,
+              "timestamp": 0,
+              "withdrawl": 3,
+              "xtype": 12
+            },
+            "renameByName": {
+              "@timestamp": "",
+              "_index": "",
+              "acct_id": "Account Name",
+              "deposit": "Deposits",
+              "description": "Description",
+              "timestamp": "Date",
+              "withdrawl": "Withdrawals"
+            }
+          }
+        }
+      ],
+      "type": "table"
     }
   ],
-  "refresh": false,
+  "refresh": "1m",
   "schemaVersion": 26,
   "style": "dark",
   "tags": [],
@@ -265,7 +548,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "WF-Transactions2",
+  "title": "Wells Fargo Transactions",
   "uid": "6iGAhc5Mz",
-  "version": 8
+  "version": 39
 }
